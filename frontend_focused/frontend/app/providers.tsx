@@ -1,33 +1,15 @@
 'use client';
 
-import { CssBaseline, ThemeProvider, createTheme } from '@mui/material';
-import { PropsWithChildren, useMemo, useState } from 'react';
+import { theme } from '@/styles/theme';
+import { CssBaseline, ThemeProvider } from '@mui/material';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-
-function useTheme() {
-  return useMemo(
-    () =>
-      createTheme({
-        palette: {
-          primary: {
-            main: '#0f62fe',
-          },
-          background: {
-            default: '#f5f7fb',
-          },
-        },
-        shape: { borderRadius: 8 },
-      }),
-    [],
-  );
-}
+import { useState } from 'react';
+import type { PropsWithChildren } from 'react';
 
 export default function Providers({ children }: PropsWithChildren) {
-  const theme = useTheme();
-  const [queryClient] = useState(() => new QueryClient());
-
+  const [client] = useState(() => new QueryClient({ defaultOptions: { queries: { retry: 1 } } }));
   return (
-    <QueryClientProvider client={queryClient}>
+    <QueryClientProvider client={client}>
       <ThemeProvider theme={theme}>
         <CssBaseline />
         {children}
