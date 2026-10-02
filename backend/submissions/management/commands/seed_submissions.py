@@ -5,7 +5,7 @@ from django.core.management.base import BaseCommand
 from django.utils import timezone
 from faker import Faker
 
-from submissions import models
+from backend.submissions import models
 
 
 class Command(BaseCommand):

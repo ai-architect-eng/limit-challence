@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.urls import include, path
 from rest_framework.routers import DefaultRouter
 
-from submissions.views import BrokerListView, SubmissionViewSet
+from backend.submissions.views import BrokerListView, SubmissionViewSet
 
 router = DefaultRouter()
 router.register("submissions", SubmissionViewSet, basename="submission")

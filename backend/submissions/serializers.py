@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from submissions.models import Broker, Company, Contact, Document, Note, Submission, TeamMember
+from backend.submissions.models import Broker, Company, Contact, Document, Note, Submission, TeamMember
 
 
 class BrokerSerializer(serializers.ModelSerializer):

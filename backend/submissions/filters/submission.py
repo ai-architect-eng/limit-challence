@@ -1,7 +1,7 @@
 from django import forms
 from django_filters import rest_framework as filters
 
-from submissions.models import Submission
+from backend.submissions.models import Submission
 
 
 class IntegerFilter(filters.Filter):

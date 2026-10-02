@@ -5,7 +5,7 @@ from django.test.utils import CaptureQueriesContext
 from django.utils import timezone
 from rest_framework.test import APITestCase
 
-from submissions.models import Broker, Company, Contact, Document, Note, Submission, TeamMember
+from backend.submissions.models import Broker, Company, Contact, Document, Note, Submission, TeamMember
 
 
 class SubmissionApiTests(APITestCase):

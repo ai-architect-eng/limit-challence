@@ -2,9 +2,9 @@ from django.db.models import Count, OuterRef, Prefetch, Subquery
 from rest_framework.generics import ListAPIView
 from rest_framework.viewsets import ReadOnlyModelViewSet
 
-from submissions.filters.submission import SubmissionFilter
-from submissions.models import Broker, Note, Submission
-from submissions.serializers import BrokerSerializer, SubmissionDetailSerializer, SubmissionListSerializer
+from backend.submissions.filters.submission import SubmissionFilter
+from backend.submissions.models import Broker, Note, Submission
+from backend.submissions.serializers import BrokerSerializer, SubmissionDetailSerializer, SubmissionListSerializer
 
 
 class SubmissionViewSet(ReadOnlyModelViewSet):
