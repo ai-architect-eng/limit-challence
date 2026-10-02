@@ -1,55 +1,43 @@
 'use client';
 
-import { useMemo } from 'react';
-import { QueryKey, useQuery } from '@tanstack/react-query';
-
+import { useQuery } from '@tanstack/react-query';
 import { apiClient } from '@/lib/api-client';
-import {
+import type {
   PaginatedResponse,
   SubmissionDetail,
   SubmissionListFilters,
   SubmissionListItem,
 } from '@/lib/types';
 
-const SUBMISSIONS_QUERY_KEY = 'submissions';
-
-async function fetchSubmissions(filters: SubmissionListFilters) {
-  const response = await apiClient.get<PaginatedResponse<SubmissionListItem>>('/submissions/', {
-    params: {
-      status: filters.status,
-      brokerId: filters.brokerId,
-      companySearch: filters.companySearch,
-    },
-  });
-  return response.data;
-}
-
-async function fetchSubmissionDetail(id: string | number) {
-  if (!id) {
-    throw new Error('Submission id is required');
-  }
-
-  const response = await apiClient.get<SubmissionDetail>(`/submissions/${id}/`);
-  return response.data;
+export function useSubmissionQueryKey(filters: SubmissionListFilters) {
+  return ['submissions', 'list', filters] as const;
 }
 
 export function useSubmissionsList(filters: SubmissionListFilters) {
   return useQuery({
-    queryKey: [SUBMISSIONS_QUERY_KEY, filters] as QueryKey,
-    queryFn: () => fetchSubmissions(filters),
-    enabled: false,
+    queryKey: useSubmissionQueryKey(filters),
+    queryFn: async ({ signal }) => {
+      const response = await apiClient.get<PaginatedResponse<SubmissionListItem>>('/submissions/', {
+        params: filters,
+        signal,
+      });
+      return response.data;
+    },
   });
 }
 
 export function useSubmissionDetail(id: string | number) {
+  const value = String(id);
   return useQuery({
-    queryKey: [SUBMISSIONS_QUERY_KEY, id],
-    queryFn: () => fetchSubmissionDetail(id),
-    enabled: false,
+    queryKey: ['submissions', 'detail', value],
+    queryFn: async ({ signal }) => {
+      const response = await apiClient.get<SubmissionDetail>(
+        `/submissions/${encodeURIComponent(value)}/`,
+        { signal },
+      );
+      return response.data;
+    },
+    enabled: /^[1-9]\d*$/.test(value) && Number.isSafeInteger(Number(value)),
     staleTime: 60_000,
   });
-}
-
-export function useSubmissionQueryKey(filters: SubmissionListFilters) {
-  return useMemo(() => [SUBMISSIONS_QUERY_KEY, filters] as QueryKey, [filters]);
 }
