@@ -1,0 +1,8 @@
+.hermes/plans/
+frontend_focused/backend/.venv/
+frontend_focused/backend/db.sqlite3
+frontend_focused/backend/db.sqlite3-journal
+frontend_focused/frontend/.e2e.sqlite3
+frontend_focused/frontend/.e2e.sqlite3-journal
+__pycache__/
+*.py[cod]
